@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 
 const MainTab = ({ posts, projects }) => {
+  console.log("메인탭으로 와싿.");
   // 상태 관리: 기본 탭은 블로그로 설정
   const [activeTab, setActiveTab] = useState('blog'); // 'blog' 또는 'study'로 상태 관리
   // 탭 클릭 시 상태 변경 함수
