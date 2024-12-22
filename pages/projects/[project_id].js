@@ -5,9 +5,11 @@ import ProjectName from '../../src/Components/BasicComponents/ProjectName';
 import ProjectHeader from '../../src/Components/ComplexComponents/ProjectHeader';
 import ChatComponent from '../../src/Components/ComplexComponents/ChatComponent';
 import Note from '../../src/Components/ComplexComponents/Note';
+import MarkdownEditor from '../../src/Components/ComplexComponents/MarkdownEditor';
 
 const ProjectDetail = ({ project, studyQuestions, notesWithQuestionTitles: initialNotes }) => {
   const [notes, setNotes] = useState(initialNotes || []); 
+  const [activeTab, setActiveTab] = useState('study'); // 기본값은 'study'
   const [text, setText] = useState('');
   const router = useRouter();
   const { project_id } = router.query;
@@ -15,6 +17,10 @@ const ProjectDetail = ({ project, studyQuestions, notesWithQuestionTitles: initi
   if (!project) {
     return <div>프로젝트를 찾을 수 없습니다.</div>;
   }
+
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+  };
 
   useEffect(() => {
     // 실시간 노트 변경 구독
@@ -166,13 +172,26 @@ const ProjectDetail = ({ project, studyQuestions, notesWithQuestionTitles: initi
         </div>
       </div>
       <div style={{ width: '78%', display: 'flex', flexDirection: 'column', overflow: 'hidden', height: '100vh' }}>
-        <div style={{ width : '78%',textAlign: 'right', position: 'fixed', top: 0, right: 0, zIndex: 1000, backgroundColor: 'white', padding: '8px' }}>
-          <ProjectHeader />
+        <div style={{ width: '78%', textAlign: 'right', position: 'fixed', top: 0, right: 0, zIndex: 1000, backgroundColor: 'white', padding: '8px' }}>
+          {/* ProjectHeader에 activeTab과 handleTabChange 전달 */}
+          <ProjectHeader activeTab={activeTab} onTabChange={handleTabChange} />
         </div>
+
+        {/* 조건부 렌더링 */}
         <div style={{ width: '100%', display: 'flex', flexDirection: 'row', gap: '20px', height: '100vh', top: '80px', position: 'relative' }}>
-          <ChatComponent projectID={project.id} studyQuestions={studyQuestions} />
+          {/* activeTab이 'study'일 때 ChatComponent를 렌더링 */}
+          {activeTab === 'study' && 
+            <ChatComponent projectID={project.id} studyQuestions={studyQuestions} />}
+          
+          {/* activeTab이 'organizing'일 때 MarkdownEditor를 렌더링 */}
+          {activeTab === 'organizing' && 
+              <div>
+                <h1>hello world</h1>
+                <MarkdownEditor initialContent={'hello world'} onSave={(content) => console.log(content)} />
+              </div>
+            }
         </div>
-      </div>
+    </div>
     </div>
   );
 };

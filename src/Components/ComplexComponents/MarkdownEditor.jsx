@@ -15,26 +15,26 @@ const MarkdownEditor = ({ initialContent, onSave }) => {
   };
 
   return (
-    <div style={{ width : '100%', height: '100vh', display: 'flex', flexDirection: 'column' }}>
-      {/* MDEditor의 높이를 100%로 설정하고, flex-grow로 부모 요소에 맞게 확장 */}
+    <div style={{ width: '75vw', height: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: 'white' }}>
       <MDEditor
         value={value}
         onChange={handleEditorChange}
         style={{
-          flexGrow: 1,   // 가용 공간을 모두 차지하도록 설정
-          marginBottom: '20px',  // 아래 여백을 추가
-          height: '100%', // 부모 div에 맞춰서 100% 높이로 설정
+          flexGrow: 1,
+          marginBottom: '20px',
+          height: '100%',
+          backgroundColor: 'white',
         }}
       />
       
-      {/* 버튼은 화면 하단에 고정하거나, 필요에 따라 스타일을 설정 */}
+      {/* 저장 버튼 */}
       <button
         onClick={handleSave}
         style={{
           padding: '10px 20px',
           margin: '10px',
           alignSelf: 'center',
-          backgroundColor: '#4CAF50',  // 버튼 배경색
+          backgroundColor: '#4CAF50',
           color: 'white',
           border: 'none',
           borderRadius: '5px',
@@ -43,6 +43,14 @@ const MarkdownEditor = ({ initialContent, onSave }) => {
       >
         저장
       </button>
+
+      {/* MDEditor 아이콘 크기 조정 */}
+      <style jsx>{`
+        .w-md-editor-toolbar button svg {
+          width: 24px;   /* 아이콘의 크기를 키우는 부분 */
+          height: 24px;  /* 아이콘의 높이를 키우는 부분 */
+        }
+      `}</style>
     </div>
   );
 };
