@@ -5,7 +5,11 @@ const MainTab = ({ posts, projects }) => {
   console.log("메인탭으로 와싿.");
   // 상태 관리: 기본 탭은 블로그로 설정
   const [activeTab, setActiveTab] = useState('blog'); // 'blog' 또는 'study'로 상태 관리
-  console.log("activatap is",activeTab);
+    // activeTab이 변경될 때마다 콘솔 찍기
+  useEffect(() => {
+    alert(activeTab);
+    console.log("activeTab is", activeTab); // 상태가 변경될 때마다 로그 출력
+  }, [activeTab]); // activeTab이 변경될 때마다 실행됨
   // 탭 클릭 시 상태 변경 함수
   const handleTabClick = (tab) => {
     setActiveTab(tab);
