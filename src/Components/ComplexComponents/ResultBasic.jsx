@@ -1,7 +1,8 @@
 import React from 'react';
-import ReactMarkdown from 'react-markdown';
+import ReactMarkdown from "react-markdown";
 
 const ResultBasic = ({ question }) => {
+
   return (
     <div style={{ width: '100%', height: '100%', padding: 10, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 10, display: 'inline-flex' }}>
       <div style={{ alignSelf: 'stretch', height: 'auto', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 8, display: 'flex' }}>

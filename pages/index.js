@@ -37,7 +37,6 @@ const Home = ({ posts, projects }) => {
 
   return (
     <div>
-      <h1>hello world</h1>
       <Header />
       <div>
         <InputModal setProjectName={handleCreateProject} />
@@ -65,15 +64,3 @@ export const getServerSideProps = async () => {
 };
 
 export default Home;
-//import React from 'react';
-
-// const Home = () => {
-//   console.log('Home 컴포넌트가 렌더링됩니다');
-//   return (
-//     <div>
-//       <h1>홈 페이지</h1>
-//     </div>
-//   );
-// };
-
-// export default Home;

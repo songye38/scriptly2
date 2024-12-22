@@ -3,7 +3,7 @@ import Checkbox from 'antd/es/checkbox/Checkbox';
 import ExpandButton from '../BasicComponents/ExpandButton';
 import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm'; // 마크다운 확장 기능 (표, 체크박스 등)
+import { remarkGfm } from 'remark-gfm';
 
 // TODO : 새로운 컬렉션 생성
 
