@@ -5,10 +5,13 @@ import ProjectName from '../../src/Components/BasicComponents/ProjectName';
 import ProjectHeader from '../../src/Components/ComplexComponents/ProjectHeader';
 import ChatComponent from '../../src/Components/ComplexComponents/ChatComponent';
 import Note from '../../src/Components/ComplexComponents/Note';
+import MarkdownEditor from '../../src/Components/ComplexComponents/MarkdownEditor';
+import Button from '../../src/Components/BasicComponents/Button';
 
 const ProjectDetail = ({ project, studyQuestions, notesWithQuestionTitles: initialNotes }) => {
   const [notes, setNotes] = useState(initialNotes || []); 
-  const [text, setText] = useState('');
+  const [activeTab, setActiveTab] = useState('study'); // 기본값은 'study'
+  const [checkedNotes, setCheckedNotes] = useState({}); // 각 Note의 체크 상태를 관리
   const router = useRouter();
   const { project_id } = router.query;
 
@@ -16,7 +19,29 @@ const ProjectDetail = ({ project, studyQuestions, notesWithQuestionTitles: initi
     return <div>프로젝트를 찾을 수 없습니다.</div>;
   }
 
+  // 노트 체크 상태 업데이트 함수
+  const handleNoteCheckChange = (noteId, isChecked) => {
+    if (activeTab === 'organizing') {
+      // organizing 탭일 때만 체크 상태를 변경하도록
+      setCheckedNotes((prev) => ({
+        ...prev,
+        [noteId]: isChecked,
+      }));
+    }
+  };
+
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+  };
+
   useEffect(() => {
+    // 노트의 체크 상태 초기화
+    const initialCheckedState = notes.reduce((acc, note) => {
+      acc[note.id] = false; // 모든 노트는 처음에 체크되지 않음
+      return acc;
+    }, {});
+    setCheckedNotes(initialCheckedState);
+
     // 실시간 노트 변경 구독
     const notesChannel = supabase.channel('notes_channel')
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'notes' }, async (payload) => {
@@ -138,25 +163,29 @@ const ProjectDetail = ({ project, studyQuestions, notesWithQuestionTitles: initi
     return () => {
       notesChannel.unsubscribe();
     };
-  }, []);
-  
+  }, [notes]);
 
-  // 렌더링 시 notes가 배열인지 체크하고, 그에 맞는 처리 추가
   return (
-    <div style={{ padding: '10px', display: 'flex', flexDirection: 'row', width: '100%', height: '100vh', alignItems: 'flex-start', gap: '20px' }}>
-      <div style={{ width: '20%', height: '100vh', display: 'flex', flexDirection: 'column', borderRight: '1px solid #ccc' }}>
-        <ProjectName title={project.name} />
-        <div style={{ height: '100%', display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '20px', overflow: 'scroll', marginBottom: '20px' }}>
+    <div style={{ display: 'flex', flexDirection: 'row', width: '100%', height: '100vh', alignItems: 'flex-start', gap: '20px' }}>
+      <div style={{ width: '20%', height: '100vh', display: 'inline-flex', flexDirection: 'column', borderRight: '1px solid #ccc' }}>
+        <div style={{ width: '100%', height: 'auto', display: 'flex', flexDirection: 'column', padding: '20px' }}>
+          <ProjectName title={project.name} />
+          {activeTab === 'organizing' && 
+            <Button title="노트 만들기" />}
+        </div>
+        <div style={{ height: '100%', display: 'flex', flexDirection: 'column', overflow: 'scroll', marginBottom: '4px' }}>
           {/* notes가 배열인지 확인하고 map() 호출 */}
           {Array.isArray(notes) && notes.length > 0 ? (
             notes.map((note) => {
-              // note에 note_questions이 없으면 빈 배열로 처리
               const noteQuestions = note.note_questions || [];
+              const isChecked = checkedNotes[note.id] || false; // 해당 노트의 체크 상태 확인
               return (
-                <Note 
-                  key={note.id} 
-                  title={note.title} 
-                  contentArray={noteQuestions.length > 0 ? noteQuestions.map(nq => nq.question_title) : ['내용 없음']} 
+                <Note
+                  key={note.id}
+                  title={note.title}
+                  contentArray={noteQuestions.length > 0 ? noteQuestions.map(nq => nq.question_title) : ['내용 없음']}
+                  isChecked={activeTab === 'organizing' ?true : false}  // 'organizing'일 때만 isChecked 전달
+                  onCheckChange={activeTab === 'organizing' ? (isChecked) => handleNoteCheckChange(note.id, isChecked) : undefined}  // 'organizing'일 때만 onCheckChange 전달
                 />
               );
             })
@@ -166,16 +195,25 @@ const ProjectDetail = ({ project, studyQuestions, notesWithQuestionTitles: initi
         </div>
       </div>
       <div style={{ width: '78%', display: 'flex', flexDirection: 'column', overflow: 'hidden', height: '100vh' }}>
-        <div style={{ width : '78%',textAlign: 'right', position: 'fixed', top: 0, right: 0, zIndex: 1000, backgroundColor: 'white', padding: '8px' }}>
-          <ProjectHeader />
+        <div style={{ width: '78%', textAlign: 'right', position: 'fixed', top: 0, right: 0, zIndex: 1000, backgroundColor: 'white', padding: '8px' }}>
+          <ProjectHeader activeTab={activeTab} onTabChange={handleTabChange} />
         </div>
+        {/* 조건부 렌더링 */}
         <div style={{ width: '100%', display: 'flex', flexDirection: 'row', gap: '20px', height: '100vh', top: '80px', position: 'relative' }}>
-          <ChatComponent projectID={project.id} studyQuestions={studyQuestions} />
+          {activeTab === 'study' && 
+            <ChatComponent projectID={project.id} studyQuestions={studyQuestions} />}
+          
+          {activeTab === 'organizing' && 
+            <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+              <MarkdownEditor initialContent={'hello world'} onSave={(content) => console.log(content)} />
+            </div>
+          }
         </div>
       </div>
     </div>
   );
 };
+
 
 export const getServerSideProps = async ({ params }) => {
   const { project_id } = params;

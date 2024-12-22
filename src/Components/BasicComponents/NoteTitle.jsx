@@ -1,19 +1,17 @@
 import React from 'react';
 import CheckBox from './CheckBox';
 
-const NoteTitle = ({ title, isChecked }) => {
+const NoteTitle = ({ title, isChecked, onChange }) => {
   return (
-    <div style={{ width: 'auto', height: '100%', gap : '2px', justifyContent: 'flex-start', alignItems: 'center', display: 'inline-flex' }}>
-      {/* 체크박스 영역 */}
+    <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+      {/* isChecked가 false일 때 체크박스를 숨김 */}
       {isChecked && (
-        <CheckBox />
+        <CheckBox 
+          checked={isChecked} // 부모에서 받은 상태 사용
+          onChange={onChange}  // 부모에서 전달된 상태 변경 함수 사용
+        />
       )}
-
-      {/* 제목 영역 */}
-     
-        <div style={{ flex: '1 1 0', color: 'black', fontSize: '15px', fontFamily: 'Pretendard', fontWeight: '500', wordWrap: 'break-word' }}>
-          {title}
-      </div>
+      <strong>{title}</strong>
     </div>
   );
 };
