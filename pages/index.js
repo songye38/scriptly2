@@ -4,6 +4,7 @@ import MainTab from '../src/Components/BasicComponents/MainTab';
 import InputModal from '../src/Components/BasicComponents/InputModal';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import React from 'react'; 
 
 const Home = ({ posts, projects }) => {
   const [projectName, setProjectName] = useState(''); //InputModal에서 받은 프로젝트 이름

@@ -7,6 +7,7 @@ import ChatComponent from '../../src/Components/ComplexComponents/ChatComponent'
 import Note from '../../src/Components/ComplexComponents/Note';
 import MarkdownEditor from '../../src/Components/ComplexComponents/MarkdownEditor';
 import Button from '../../src/Components/BasicComponents/Button';
+import React from 'react'; 
 
 const ProjectDetail = ({ project, studyQuestions, notesWithQuestionTitles: initialNotes }) => {
   const [notes, setNotes] = useState(initialNotes || []); 
