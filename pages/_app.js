@@ -1,5 +1,11 @@
-import '../src/Styles/globals.css';
-import React from 'react'; 
+// pages/_app.js
+
+
+import '../src/Styles/globals.css'
+import '../src/Styles/md-editor.css';
+import '../src/Styles/md-editor/TextArea.css';
+
+
 
 
 function MyApp({ Component, pageProps }) {
