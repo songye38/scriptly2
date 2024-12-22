@@ -60,7 +60,7 @@ export const getServerSideProps = async () => {
     console.error("Error fetching data:", postsError || projectsError);
     return { props: { posts: [], projects: [] } };
   }
-
+  console.log("불러온 데이터0----------------",posts);
   return { props: { posts, projects } };
 };
 
