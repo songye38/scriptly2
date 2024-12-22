@@ -2,11 +2,11 @@ import React from 'react';
 import NoteTitle from '../BasicComponents/NoteTitle';
 import NoteContent from '../BasicComponents/NoteContent';
 
-const Note = ({ title, contentArray }) => {
+const Note = ({ title, contentArray,isChecked }) => {
   return (
     <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'flex-start',gap:'14px', padding:'16px' }}>
       {/* 제목 */}
-      <NoteTitle title={title}  isChecked={false}/>
+      <NoteTitle title={title}  isChecked={isChecked}/>
 
       {/* NoteContent들을 감싸는 div */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>

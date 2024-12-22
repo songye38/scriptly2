@@ -159,11 +159,13 @@ const ProjectDetail = ({ project, studyQuestions, notesWithQuestionTitles: initi
             notes.map((note) => {
               // note에 note_questions이 없으면 빈 배열로 처리
               const noteQuestions = note.note_questions || [];
+              const isChecked = activeTab === 'organizing'; // 'organizing' 탭일 때만 isChecked를 true로 설정
               return (
                 <Note 
                   key={note.id} 
                   title={note.title} 
                   contentArray={noteQuestions.length > 0 ? noteQuestions.map(nq => nq.question_title) : ['내용 없음']} 
+                  isChecked={isChecked} // Note 컴포넌트에 isChecked 전달
                 />
               );
             })
