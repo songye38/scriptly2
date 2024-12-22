@@ -52,7 +52,7 @@ const MainTab = ({ posts, projects }) => {
           공부
         </div>
       </div>
-      {activeTab === 'blog' && (
+      {activeTab === 'study' && (
   <div style={{
     display: 'grid', 
     gridTemplateColumns: 'repeat(3, 1fr)', // 한 줄에 3개의 카드 배치
@@ -129,7 +129,7 @@ const MainTab = ({ posts, projects }) => {
 )}
 
 
-{activeTab === 'study' && (
+{activeTab === 'blog' && (
   <div
     style={{
       display: 'grid',
