@@ -18,6 +18,7 @@ const MainTab = ({ posts, projects }) => {
   return (
     <div>
       {/* 탭 메뉴 */}
+      <h1>표시가 잘 되려나?</h1>
       <div style={{ display: 'flex', gap: '0px' ,marginBottom:'12px'}}>
         <div
           style={{
@@ -46,18 +47,6 @@ const MainTab = ({ posts, projects }) => {
           공부
         </div>
       </div>
-
-      {/* 탭 내용 */}
-      {/* {activeTab === 'blog' && (
-        <div>
-          {posts.map((post) => (
-            <div key={post.id}>
-              <h3>{post.title}</h3>
-              <p>{post.content}</p>
-            </div>
-          ))}
-        </div>
-      )} */}
       {activeTab === 'blog' && (
   <div style={{
     display: 'grid', 
