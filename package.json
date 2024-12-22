@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "코드이해부터, 복습, 블로그 작성까지 모두 가능한 개발자를 위한 올인원 서비스",
   "main": "index.js",
-  "type": "commonjs",
+   "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
