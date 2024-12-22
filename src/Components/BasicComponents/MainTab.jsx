@@ -47,7 +47,7 @@ const MainTab = ({ posts, projects }) => {
       </div>
 
       {/* 탭 내용 */}
-      {activeTab === 'blog' && (
+      {/* {activeTab === 'blog' && (
         <div>
           {posts.map((post) => (
             <div key={post.id}>
@@ -56,26 +56,134 @@ const MainTab = ({ posts, projects }) => {
             </div>
           ))}
         </div>
-      )}
+      )} */}
+      {activeTab === 'blog' && (
+  <div style={{
+    display: 'grid', 
+    gridTemplateColumns: 'repeat(3, 1fr)', // 한 줄에 3개의 카드 배치
+    gap: '20px',
+    marginTop: '20px',
+  }}>
+    {posts.map((post) => (
+      <div
+        key={post.id}
+        style={{
+          backgroundColor: '#fff',
+          borderRadius: '10px',
+          boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)',
+          padding: '20px',
+          transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+          cursor: 'pointer',
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = 'scale(1.05)';
+          e.currentTarget.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.2)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = 'scale(1)';
+          e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.1)';
+        }}
+      >
+        <h3 style={{
+          fontSize: '18px',
+          fontWeight: '600',
+          color: '#333',
+          marginBottom: '12px',
+          lineHeight: '1.4',
+          textTransform: 'capitalize', // 제목을 첫 글자만 대문자로
+        }}>
+          {post.title}
+        </h3>
+        <p style={{
+          fontSize: '14px',
+          color: '#666',
+          lineHeight: '1.6',
+          wordWrap: 'break-word',
+          maxHeight: '120px',
+          overflow: 'hidden', // 내용이 너무 길 경우 잘라냄
+        }}>
+          {post.content}
+        </p>
+        <div style={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          marginTop: '12px',
+        }}>
+          <button
+            onClick={() => handlePostClick(post.id)} // 클릭 시 블로그 포스트 상세 페이지로 이동
+            style={{
+              padding: '6px 12px',
+              backgroundColor: '#5670F1',
+              color: '#fff',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontSize: '14px',
+              fontWeight: '600',
+              transition: 'background-color 0.3s',
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#435BB2'}
+            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#5670F1'}
+          >
+            Read More
+          </button>
+        </div>
+      </div>
+    ))}
+  </div>
+)}
+
 
       {activeTab === 'study' && (
-        <div>
-          {projects.map((project) => (
-            <div className='project-item'key={project.id}
-            style={{
-              cursor: 'pointer',
-              padding: '10px',
-              border: '1px solid #ccc',
-              marginBottom: '10px',
-            }}
-            onClick={() => handleProjectClick(project.id)} // 클릭 시 프로젝트 상세 페이지로 이동
-          >
-              <h3>{project.name}</h3>
-              <p>{project.description}</p>
-            </div>
-          ))}
-        </div>
-      )}
+  <div style={{
+    display: 'grid', 
+    gridTemplateColumns: 'repeat(4, 1fr)', // 한 줄에 4개의 카드를 배치
+    gap: '20px', // 카드 간의 간격
+    marginTop: '20px', // 상단 여백
+  }}>
+    {projects.map((project) => (
+      <div
+        key={project.id}
+        style={{
+          cursor: 'pointer',
+          padding: '20px',
+          borderRadius: '8px',
+          backgroundColor: '#f9f9f9',
+          border: '1px solid #e0e0e0',
+          boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
+          transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+        }}
+        onClick={() => handleProjectClick(project.id)}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = 'scale(1.05)';
+          e.currentTarget.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.15)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = 'scale(1)';
+          e.currentTarget.style.boxShadow = '0 4px 10px rgba(0, 0, 0, 0.1)';
+        }}
+      >
+        <h3 style={{
+          fontSize: '18px',
+          fontWeight: '600',
+          color: '#333',
+          marginBottom: '12px'
+        }}>
+          {project.name}
+        </h3>
+        <p style={{
+          fontSize: '14px',
+          color: '#666',
+          lineHeight: '1.5'
+        }}>
+          {project.description}
+        </p>
+      </div>
+    ))}
+  </div>
+)}
+
+
     </div>
   );
 };

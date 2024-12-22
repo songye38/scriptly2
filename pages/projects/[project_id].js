@@ -6,6 +6,7 @@ import ProjectHeader from '../../src/Components/ComplexComponents/ProjectHeader'
 import ChatComponent from '../../src/Components/ComplexComponents/ChatComponent';
 import Note from '../../src/Components/ComplexComponents/Note';
 import MarkdownEditor from '../../src/Components/ComplexComponents/MarkdownEditor';
+import Button from '../../src/Components/BasicComponents/Button';
 
 const ProjectDetail = ({ project, studyQuestions, notesWithQuestionTitles: initialNotes }) => {
   const [notes, setNotes] = useState(initialNotes || []); 
@@ -149,10 +150,10 @@ const ProjectDetail = ({ project, studyQuestions, notesWithQuestionTitles: initi
 
   // 렌더링 시 notes가 배열인지 체크하고, 그에 맞는 처리 추가
   return (
-    <div style={{ padding: '10px', display: 'flex', flexDirection: 'row', width: '100%', height: '100vh', alignItems: 'flex-start', gap: '20px' }}>
+    <div style={{  display: 'flex', flexDirection: 'row', width: '100%', height: '100vh', alignItems: 'flex-start', gap: '20px' }}>
       <div style={{ width: '20%', height: '100vh', display: 'flex', flexDirection: 'column', borderRight: '1px solid #ccc' }}>
         <ProjectName title={project.name} />
-        <div style={{ height: '100%', display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '20px', overflow: 'scroll', marginBottom: '20px' }}>
+        <div style={{height: '100%', display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '20px', overflow: 'scroll', marginBottom: '20px' }}>
           {/* notes가 배열인지 확인하고 map() 호출 */}
           {Array.isArray(notes) && notes.length > 0 ? (
             notes.map((note) => {
@@ -185,8 +186,7 @@ const ProjectDetail = ({ project, studyQuestions, notesWithQuestionTitles: initi
           
           {/* activeTab이 'organizing'일 때 MarkdownEditor를 렌더링 */}
           {activeTab === 'organizing' && 
-              <div>
-                <h1>hello world</h1>
+              <div style={{width : '100%',display:'flex',flexDirection:'column',gap:'4px'}}>
                 <MarkdownEditor initialContent={'hello world'} onSave={(content) => console.log(content)} />
               </div>
             }

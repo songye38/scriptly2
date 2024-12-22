@@ -17,9 +17,9 @@
   }
   /* 전역 기본 스타일 */
   body {
-    background-color: 'blue';
-    margin-left: 40px;
-    margin-right: 40px;
-    margin-top: 20px; 
+    background-color: 'blue' !important;
+    margin-left: 20px !important;
+    margin-right: 20px !important;
+    margin-top: 20px !important;
     font-family: 'Pretendard-Regular', sans-serif;
   }
