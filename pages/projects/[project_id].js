@@ -19,6 +19,8 @@ const ProjectDetail = ({ project, studyQuestions, notesWithQuestionTitles: initi
     return <div>프로젝트를 찾을 수 없습니다.</div>;
   }
 
+  console.log("이건 나오나요?...");
+
   // 노트 체크 상태 업데이트 함수
   const handleNoteCheckChange = (noteId, isChecked) => {
     if (activeTab === 'organizing') {
@@ -215,10 +217,33 @@ const ProjectDetail = ({ project, studyQuestions, notesWithQuestionTitles: initi
 };
 
 
-export const getServerSideProps = async ({ params }) => {
+export const getStaticPaths = async () => {
+  // 프로젝트 ID를 Supabase에서 가져오기
+  const { data: projects, error } = await supabase
+    .from('projects')
+    .select('id');
+
+  if (error) {
+    console.error('프로젝트 목록을 가져오는 데 실패했습니다:', error);
+    return { paths: [], fallback: 'blocking' }; // 에러 발생 시 빈 경로 목록 반환
+  }
+
+  // 프로젝트 ID를 기반으로 동적 경로 목록 생성
+  const paths = projects.map((project) => ({
+    params: { project_id: project.id.toString() },  // 동적 경로 파라미터
+  }));
+
+  return {
+    paths,  // 렌더링할 경로 목록
+    fallback: 'blocking', // 새로운 경로가 들어오면 서버에서 렌더링하고 반환
+  };
+};
+
+export const getStaticProps = async ({ params }) => {
   const { project_id } = params;
 
-  const { data: projectWithNotes, error: projectError } = await supabase
+  // Supabase에서 해당 프로젝트의 데이터 가져오기
+  const { data: projectWithNotes, error } = await supabase
     .from('projects')
     .select(`
       *,
@@ -240,11 +265,11 @@ export const getServerSideProps = async ({ params }) => {
     `)
     .eq('id', project_id);
 
-  if (projectError) {
-    console.error('프로젝트를 가져오는 데 실패했습니다:', projectError);
-    return { notFound: true };
+  if (error || !projectWithNotes) {
+    return { notFound: true }; // 프로젝트가 없으면 404 페이지로 처리
   }
 
+  // 노트 및 질문 데이터 처리
   const notesWithQuestionTitles = await Promise.all(
     projectWithNotes[0]?.notes?.map(async (note) => {
       const noteQuestionsWithTitles = await Promise.all(
@@ -262,7 +287,7 @@ export const getServerSideProps = async ({ params }) => {
 
           return {
             ...noteQuestion,
-            question_title: questionData?.answer_title || '질문을 가져오지 못했습니다.'
+            question_title: questionData?.answer_title || '질문을 가져오지 못했습니다.',
           };
         })
       );
@@ -282,5 +307,6 @@ export const getServerSideProps = async ({ params }) => {
     },
   };
 };
+
 
 export default ProjectDetail;
