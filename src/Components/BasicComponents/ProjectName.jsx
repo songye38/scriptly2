@@ -4,12 +4,12 @@ const ProjectName = ({title}) => {
   return (
     <div
       style={{
-        width: "305px",
+        width: "auto",
         height: "auto",
-        paddingTop: 10,
-        paddingBottom: 30,
-        paddingLeft: 10,
-        paddingRight: 10,
+        // paddingTop: 10,
+        paddingBottom: 20,
+        // paddingLeft: 10,
+        // paddingRight: 10,
         flexDirection: "column",
         justifyContent: "flex-start",
         alignItems: "flex-start",
