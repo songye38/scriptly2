@@ -39,14 +39,13 @@ const ChatComponent = ({ projectID, studyQuestions }) => {
       const isAlreadySelected = prev.some((q) => q.id === question.id); // question 객체의 id로 비교
   
       if (isAlreadySelected) {
-        // 이미 선택된 경우 해당 question 객체 제거
-        return prev.filter((q) => q.id !== question.id);
+        return prev.filter((q) => q.id !== question.id); // 이미 선택된 경우 해당 question 객체 제거
       } else {
-        // 선택되지 않은 경우 question 객체 추가
-        return [...prev, question];
+        return [...prev, question]; // 선택되지 않은 경우 question 객체 추가
       }
     });
   };
+  
   
 
 useEffect(() => {

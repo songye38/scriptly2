@@ -8,6 +8,7 @@ import remarkGfm from 'remark-gfm'; // 마크다운 확장 기능 (표, 체크�
 // TODO : 새로운 컬렉션 생성
 
 const ResultSummary = ({ question,onCheckboxChange, isChecked }) => {
+  console.log('onCheckboxChange 함수 호출, question:', question);
   // 상태 관리: 내용이 보이는지 여부를 관리
   const [isContentVisible, setIsContentVisible] = useState(false);
 
